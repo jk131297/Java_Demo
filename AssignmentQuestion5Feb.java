@@ -2,7 +2,10 @@ public class AssignmentQuestion5Feb {
     
     public static void main(String[] args){
         // checkPalindrome("2552");
-        countConsoVowelSc("Hello, My N@^_ame is Jayant@#$");
+        // printMaxOccurChars("Hello, My Name is Jayant");
+        // checkAnagram("RACE peek","care kiep");
+        checkForUniqueChar("Hello My Name is Jayant");
+        checkPangram("The quick brown fox jumps over the lazy dog");
     }
 
     /*Q1 -- Write a prog to remove Duplicates */
@@ -97,31 +100,143 @@ public class AssignmentQuestion5Feb {
 
     /*Q5 -- write a prog to check anagram */
 
-    public static void checkAnagram(String inputStr){
+    public static void checkPangram(String inputStr){
+
+        inputStr=inputStr.toUpperCase().replace(" ", "");
+        char charArr[] = inputStr.toCharArray();
+        int intArr[] = new int[26];
+        boolean isPanagram = true;
+        for(int i =0; i < charArr.length; i++){
+            intArr[charArr[i]-65]++;
+        }
+
+        for(int j =0; j<26;j++){
+            if(intArr[j]==0){
+                isPanagram=false;
+                break;
+            }
+        }
+        if(isPanagram){
+            System.out.println("This is Pangram");
+        }
+        else{
+            System.out.println("This is not a Pangram");     
+        }
 
     }
 
     /*Q6 -- write a prog to check Pangram */
 
-    public static void checkPangram(String inputStr){
+    public static void checkAnagram(String inputStr, String secString){
+        inputStr=inputStr.toUpperCase().replace(" ", "");
+        secString = secString.toUpperCase().replace(" ","");
+        char inputStrAr[] = inputStr.toCharArray();
+        char secStringArr[] = secString.toCharArray();
+        boolean isAnagram=true;
+        inputStrAr = sortArr(inputStrAr);
+        secStringArr = sortArr(secStringArr);
+        int lenofInputStrArr = inputStrAr.length;
+        int lenOfsecStringArr = secStringArr.length;
+        if(lenOfsecStringArr!=lenofInputStrArr){
+            System.out.print("Not Anagram");
+        }
+        else{
 
+            for(int i=0;i<lenofInputStrArr;i++){
+                if(inputStrAr[i]!=secStringArr[i]){
+                    isAnagram=false;
+                    break;
+                }
+            }
+            if(isAnagram){
+                System.out.println("This is Anagram");
+            }
+            else{
+                System.out.print("Not Anagram");
+            }
+        }
+        
+    }
+
+    public static char[] sortArr(char[] charArr){
+        char c='0';
+        for(int i=0;i<charArr.length;i++){
+            for(int j=0; j<charArr.length-1-i;j++){
+                if(charArr[j]>charArr[j+1]){
+                    c=charArr[j+1];
+                    charArr[j+1]=charArr[j];
+                    charArr[j]=c;
+                }
+            }
+        }
+        return charArr;
     }
     
     /* Q7 -- write a prog to check unique characters */
 
     public static void checkForUniqueChar(String inputStr){
-
+        char[] charArr = inputStr.toCharArray();
+        int len = charArr.length;
+        int[] frequency = new int[len];
+        for(int i =0; i<len ; i++){
+            frequency[i]=1;
+            for(int j=i+1; j<len ; j++){
+                if(Character.toString(charArr[i]).equalsIgnoreCase(
+                    Character.toString(charArr[j])
+                ) && charArr[i]!=' ' 
+                && charArr[i]!='0'){
+                    frequency[i]++;
+                    charArr[j]='0';
+                }
+            }
+        }
+        for(int i =0; i<len;i++){
+            if(charArr[i]!='0'&& charArr[i]!=' '){
+                if(frequency[i]==1){
+                    System.out.println(charArr[i]);
+                }
+            }
+        }
     }
 
     /*Q8 -- write a prog  to check maximum occurance characters */
 
     public static void printMaxOccurChars(String inputStr){
+        char[] charArr = inputStr.toCharArray();
+        int len = charArr.length;
+        int max, min;
+        char maxChar,minChar;
+        int[] occurance = new int[len];
+        for(int i =0; i<len;i++){
+            occurance[i]=1;
+            for(int j = i+1; j<len ;j++){
+                if(charArr[i]==charArr[j] && charArr[i]!=' ' && charArr[i]!='0'){
+                    occurance[i]++;
+                    charArr[j]='0';
+                }
+            }
+        }
+        min=max=occurance[0];
+        minChar =maxChar = charArr[0];
+        for(int i =0; i<len;i++){
+            if(charArr[i]!=' '&& charArr[i]!='0'){
+                System.out.println(charArr[i]+" "+occurance[i]);
+                if(min>occurance[i]){
+                    min=occurance[i];
+                    minChar=charArr[i];
+                }
+                if(max<occurance[i]){
+                    max= occurance[i];
+                    maxChar= charArr[i];
+                
+            }
+        }
+
+    }
+System.out.println("Max Occurance :"+ maxChar+ " "+max);
+
+// System.out.println("Min Occurance :"+ minChar+ " "+min);
 
 
     }
-
-
-
-
-
 }
